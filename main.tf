@@ -102,8 +102,8 @@ resource "aws_db_instance" "rds_app" {
   engine               = "postgres"
   engine_version       = "15.3"
   instance_class       = "db.t3.micro"
-  identifier           = "bish-bash-bosh-example-app-prod"
-  name                 = "bish-bash-bosh-example-app-database-name"
+  identifier           = "bishdbid"
+  name                 = "bishdbname"
   username             = "thebosh"
   password             = "bishbashbosh"
   skip_final_snapshot  = true
