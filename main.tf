@@ -67,25 +67,6 @@ resource "aws_iam_role" "bish_bash_bosh_app_ec2_role" {
 
   })
 }
-resource "aws_iam_policy" "s3_bucket_policy" {
-  name        = "S3BucketPolicyFullAccess"
-  description = "Grants full access to S3 bucket policies"
-  
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect    = "Allow",
-      Action    = "s3:*",
-      Resource  = "*"
-    }]
-  })
-}
-
-resource "aws_iam_policy_attachment" "s3_bucket_policy_attachment" {
-  name       = "S3BucketPolicyFullAccessAttachment"
-  roles      = [aws_iam_role.bish_bash_bosh_app_ec2_role.name]
-  policy_arn = aws_iam_policy.s3_bucket_policy.arn
-}
 resource "aws_s3_bucket" "docker_deploy_bucket" {
   bucket = "bish-bash-bucket"  # Replace "your_bucket_name" with your desired bucket name
   acl    = "private"            # Set ACL as per your requirement, e.g., "private", "public-read", etc.
