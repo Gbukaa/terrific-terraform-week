@@ -96,3 +96,16 @@ resource "aws_iam_instance_profile" "bish_bash_bosh_app_ec2_instance_profile" {
   role = aws_iam_role.bish_bash_bosh_app_ec2_role.name
 }
 
+
+resource "aws_db_instance" "rds_app" {
+  allocated_storage    = 10
+  engine               = "postgres"
+  engine_version       = "15.3"
+  instance_class       = "db.t3.micro"
+  identifier           = "bish-bash-bosh-example-app-prod"
+  name                 = "bish-bash-bosh-example-app-database-name"
+  username             = "thebosh"
+  password             = "bishbashbosh"
+  skip_final_snapshot  = true
+  publicly_accessible = true
+}
