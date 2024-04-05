@@ -18,7 +18,7 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-resource "aws_ecr_repository" "my_repository" {
+resource "aws_ecrpublic_repository" "my_repository" {
   name = "bish-bash-bosh-repo"
   # Optional configurations
   image_tag_mutability = "IMMUTABLE"
