@@ -11,6 +11,7 @@ terraform {
       version = "~> 4.16"
     }
   }
+
   required_version = ">=1.2.0"
 }
 
@@ -25,13 +26,17 @@ resource "aws_ecr_repository" "my_repository" {
   image_scanning_configuration {
     scan_on_push = true
   }
+}
 
-  repository_policy = jsonencode({
+resource "aws_ecr_repository_policy" "my_repository_policy" {
+  repository = aws_ecr_repository.my_repository.name
+
+  policy = jsonencode({
     Version = "2008-10-17"
     Statement = [
       {
-        Effect = "Allow",
-        Principal = "*",
+        Effect = "Allow"
+        Principal = "*"
         Action = [
           "ecr:BatchCheckLayerAvailability",
           "ecr:BatchGetImage",
@@ -90,6 +95,10 @@ resource "aws_iam_role" "bish_bash_bosh_app_ec2_role" {
 
 resource "aws_s3_bucket" "docker_deploy_bucket" {
   bucket = "bish-bash-bucket"
+}
+
+resource "aws_s3_bucket_acl" "docker_deploy_bucket_acl" {
+  bucket = aws_s3_bucket.docker_deploy_bucket.id
   acl    = "private"
 }
 
@@ -119,14 +128,14 @@ resource "aws_iam_instance_profile" "bish_bash_bosh_app_ec2_instance_profile" {
 }
 
 resource "aws_db_instance" "rds_app" {
-  allocated_storage   = 10
-  engine              = "postgres"
-  engine_version      = "15.3"
-  instance_class      = "db.t3.micro"
-  identifier          = "bishdbid"
-  name                = "bishdbname"
-  username            = "thebosh"
-  password            = "bishbashbosh"
-  skip_final_snapshot = true
-  publicly_accessible = true
+  allocated_storage    = 10
+  engine               = "postgres"
+  engine_version       = "15.3"
+  instance_class       = "db.t3.micro"
+  identifier           = "bishdbid"
+  name                 = "bishdbname"
+  username             = "thebosh"
+  password             = "bishbashbosh"
+  skip_final_snapshot  = true
+  publicly_accessible  = true
 }
